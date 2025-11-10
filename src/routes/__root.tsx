@@ -7,6 +7,8 @@ import { fetchClerkAuth } from '@/auth.server'
 import type { RouterContext } from '@/router'
 import { ClerkProvider, useAuth } from '@clerk/tanstack-react-start'
 import { ConvexProviderWithAuth } from 'convex/react'
+import { SidebarProvider } from '@/components/ui/sidebar'
+import { MainSidebar } from '@/components/main-sidebar'
 
 const CLERK_PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY as string;
 if (!CLERK_PUBLISHABLE_KEY) {
@@ -48,22 +50,25 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       <body>
         <ClerkProvider publishableKey={CLERK_PUBLISHABLE_KEY} afterSignOutUrl="/">
           <ConvexProviderWithAuth client={context.convexClient} useAuth={useAuth as any}>
-            {children}
-            <TanStackDevtools
-              config={{
-                position: 'bottom-right',
-              }}
-              plugins={[
-                {
-                  name: 'Tanstack Router',
-                  render: <TanStackRouterDevtoolsPanel />,
-                },
-                {
-                  name: 'TanStack Query',
-                  render: <ReactQueryDevtoolsPanel />,
-                }
-              ]}
-            />
+            <SidebarProvider>
+              <MainSidebar />
+              {children}
+              <TanStackDevtools
+                config={{
+                  position: 'bottom-right',
+                }}
+                plugins={[
+                  {
+                    name: 'Tanstack Router',
+                    render: <TanStackRouterDevtoolsPanel />,
+                  },
+                  {
+                    name: 'TanStack Query',
+                    render: <ReactQueryDevtoolsPanel />,
+                  }
+                ]}
+              />
+            </SidebarProvider>
           </ConvexProviderWithAuth>
         </ClerkProvider>
         <Scripts />

@@ -11,8 +11,8 @@ export const CommonContent = v.object({
     v.literal("completed"),
     v.literal("failed")
   )),
-  ingestionStartedAt: v.int64(),
-  ingestionCompletedAt: v.optional(v.int64()),
+  ingestionStartedAt: v.number(),
+  ingestionCompletedAt: v.optional(v.number()),
 })
 
 export const ArticleMetadata = v.object({
