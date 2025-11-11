@@ -14,7 +14,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip
 import { useAddContentModal } from "@/stores";
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/tanstack-react-start";
 import { Link, useNavigate } from "@tanstack/react-router";
-import { ArchiveIcon, InboxIcon } from "lucide-react";
+import { ArchiveIcon, FileStackIcon, InboxIcon, ScrollTextIcon } from "lucide-react";
 import { useHotkeys } from "react-hotkeys-hook";
 
 export function MainSidebar() {
@@ -68,6 +68,22 @@ export function MainSidebar() {
               <Link to="/archive">
                 <ArchiveIcon className="mr-2 size-[18px]" />
                 <span className="text-sm font-medium">archive</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild className="pl-4 flex flex-row items-center gap-3">
+              <Link to="/prompt-vault">
+                <ScrollTextIcon className="mr-2 size-[18px]" />
+                <span className="text-sm font-medium">prompt vault</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild className="pl-4 flex flex-row items-center gap-3">
+              <Link to="/context-vault">
+                <FileStackIcon className="mr-2 size-[18px]" />
+                <span className="text-sm font-medium">context vault</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
