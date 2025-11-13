@@ -10,6 +10,11 @@
 
 import type * as env from "../env.js";
 import type * as features_ingestion_actions from "../features/ingestion/actions.js";
+import type * as features_ingestion_article_actions from "../features/ingestion/article/actions.js";
+import type * as features_ingestion_article_actions_node from "../features/ingestion/article/actions_node.js";
+import type * as features_ingestion_article_mutations from "../features/ingestion/article/mutations.js";
+import type * as features_ingestion_article_queries from "../features/ingestion/article/queries.js";
+import type * as features_ingestion_article_workflows from "../features/ingestion/article/workflows.js";
 import type * as features_ingestion_helpers from "../features/ingestion/helpers.js";
 import type * as features_ingestion_queries from "../features/ingestion/queries.js";
 import type * as features_ingestion_video_actions from "../features/ingestion/video/actions.js";
@@ -39,6 +44,11 @@ import type {
 declare const fullApi: ApiFromModules<{
   env: typeof env;
   "features/ingestion/actions": typeof features_ingestion_actions;
+  "features/ingestion/article/actions": typeof features_ingestion_article_actions;
+  "features/ingestion/article/actions_node": typeof features_ingestion_article_actions_node;
+  "features/ingestion/article/mutations": typeof features_ingestion_article_mutations;
+  "features/ingestion/article/queries": typeof features_ingestion_article_queries;
+  "features/ingestion/article/workflows": typeof features_ingestion_article_workflows;
   "features/ingestion/helpers": typeof features_ingestion_helpers;
   "features/ingestion/queries": typeof features_ingestion_queries;
   "features/ingestion/video/actions": typeof features_ingestion_video_actions;

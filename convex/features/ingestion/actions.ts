@@ -22,10 +22,7 @@ export const ingestContentByUrl = action({
     if (isYoutubeURL(normalizedUrl)) {
       await ctx.runMutation(internal.features.ingestion.video.mutations.startIngestVideoWorkflow, { url: normalizeYoutubeURL(normalizedUrl) });
     } else {
-      // TODO: Handle article ingestion
-      // await ctx.runWorkflow(internal.features.ingestion.article.workflows.ingestArticleWorkflow, { url: normalizedUrl });
-      console.log(`Article URL ingestion not yet implemented: ${normalizedUrl}`);
-      throw new Error("Article URL ingestion not yet implemented.");
+      await ctx.runMutation(internal.features.ingestion.article.mutations.startIngestArticleWorkflow, { url: normalizedUrl });
     }
 
     // TODO: kickoff appropriate ingestion workflow based on content type
