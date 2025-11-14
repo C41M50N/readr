@@ -9,6 +9,7 @@
  */
 
 import type * as env from "../env.js";
+import type * as features_content_queries from "../features/content/queries.js";
 import type * as features_ingestion_actions from "../features/ingestion/actions.js";
 import type * as features_ingestion_article_actions from "../features/ingestion/article/actions.js";
 import type * as features_ingestion_article_actions_node from "../features/ingestion/article/actions_node.js";
@@ -33,16 +34,9 @@ import type {
   FunctionReference,
 } from "convex/server";
 
-/**
- * A utility for referencing Convex functions in your app's API.
- *
- * Usage:
- * ```js
- * const myFunctionReference = api.myModule.myFunction;
- * ```
- */
 declare const fullApi: ApiFromModules<{
   env: typeof env;
+  "features/content/queries": typeof features_content_queries;
   "features/ingestion/actions": typeof features_ingestion_actions;
   "features/ingestion/article/actions": typeof features_ingestion_article_actions;
   "features/ingestion/article/actions_node": typeof features_ingestion_article_actions_node;
@@ -61,14 +55,30 @@ declare const fullApi: ApiFromModules<{
   "lib/llm": typeof lib_llm;
   "lib/replicate": typeof lib_replicate;
 }>;
-declare const fullApiWithMounts: typeof fullApi;
 
+/**
+ * A utility for referencing Convex functions in your app's public API.
+ *
+ * Usage:
+ * ```js
+ * const myFunctionReference = api.myModule.myFunction;
+ * ```
+ */
 export declare const api: FilterApi<
-  typeof fullApiWithMounts,
+  typeof fullApi,
   FunctionReference<any, "public">
 >;
+
+/**
+ * A utility for referencing Convex functions in your app's internal API.
+ *
+ * Usage:
+ * ```js
+ * const myFunctionReference = internal.myModule.myFunction;
+ * ```
+ */
 export declare const internal: FilterApi<
-  typeof fullApiWithMounts,
+  typeof fullApi,
   FunctionReference<any, "internal">
 >;
 

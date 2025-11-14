@@ -20,6 +20,10 @@ export function AddContentModal() {
       setValue("");
       modalStateStore.set("closed");
     },
+    onError: (error) => {
+      console.error("Ingestion error:", error);
+      toast.error(`Failed to start ingestion: ${error.message}`);
+    }
   });
 
   function onEnter() {

@@ -1,7 +1,8 @@
 
 export async function normalizeURL(url: string): Promise<string | undefined> {
   try {
-    const response = await fetch(url, { method: "HEAD", redirect: "follow" });
+    const response = await fetch(url, { method: "HEAD", redirect: "follow", headers: { "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36" } });
+    console.log(`Normalized URL: ${response.url} (status: ${response.status}) headers: ${JSON.stringify(response.headers)}`);
     if (
       !response.ok ||
       !response.headers.get("Content-Type")?.includes("text/html")
