@@ -7,6 +7,7 @@ export const workflow = new WorkflowManager(components.workflow, {
       maxAttempts: 5,
       initialBackoffMs: 100,
       base: 2.5,
-    }
+    },
+    retryActionsByDefault: true,
   },
 });
