@@ -24,11 +24,15 @@ export const getVideoMetadata = internalAction({
       duration: z.number(),
     });
 
+    const jsonSchema = z.toJSONSchema(ExtractSchema);
+    delete jsonSchema.$schema;
+    delete jsonSchema.additionalProperties;
+
     const { data } = await firecrawl.extract({
       urls: [args.url],
       prompt:
-        "Extract the channel name, channel url, and video duration (in seconds) from the video.",
-      schema: z.toJSONSchema(ExtractSchema),
+        "Extract the channel name, channel URL, and video duration (in seconds) from the video page.",
+      schema: jsonSchema,
     });
     const { channel_name, channel_url, duration } = ExtractSchema.parse(data);
 

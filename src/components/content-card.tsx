@@ -1,9 +1,11 @@
+import { Button } from "@/components/ui/button";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { formatDuration } from "@/lib/utils";
 import { Doc } from "@convex/_generated/dataModel";
-import { ArchiveIcon, Calendar1Icon, CalendarIcon, ClockIcon, ExternalLinkIcon } from "lucide-react";
-import dayjs from "dayjs";
-import { Button } from "./ui/button";
+import { IconMessagePlus } from '@tabler/icons-react';
 import { Link } from "@tanstack/react-router";
-import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
+import dayjs from "dayjs";
+import { ArchiveIcon, BookOpenIcon, CalendarIcon, ClockIcon, ExternalLinkIcon } from "lucide-react";
 
 export type ContentCardProps = {
   content: Doc<"contents">;
@@ -15,7 +17,12 @@ export function ContentCard({ content }: ContentCardProps) {
   const title = content.metadata?.title || null;
   const thumbnail = content.metadata?.thumbnail || content.metadata?.cover_img || null;
   const date = content.metadata?.publish_date || null;
-  const time = content.metadata?.read_time || content.metadata?.watch_time || null;
+  const time = content.metadata?.read_time || content.metadata?.duration || null as number | null;
+  const author = content.metadata?.author || content.metadata?.channel_name || "Unknown Author";
+
+  function moveToArchive() {
+    // TODO: Implement archive logic here
+  }
 
   return (
     <div className="min-h-28 w-full max-w-[2000px] p-4 border border-gray-300 rounded-sm">
@@ -37,7 +44,7 @@ export function ContentCard({ content }: ContentCardProps) {
             {title ? (
               <h3 className="text-xl font-semibold mb-0.5">{title}</h3>
             ) : (
-              <div className="h-5 w-[500px] bg-linear-to-r from-gray-200 via-gray-100 to-gray-200 bg-size-[200%_100%] animate-[shimmer_0.5s_infinite] rounded mb-2" />
+              <div className="h-6 w-full max-w-[700px] bg-linear-to-r from-gray-200 via-gray-100 to-gray-200 bg-size-[200%_100%] animate-[shimmer_0.5s_infinite] rounded mb-2" />
             )}
           </div>
           <p className="mb-2 max-w-2xl text-xs text-gray-700 line-clamp-2 text-ellipsis">
@@ -46,7 +53,7 @@ export function ContentCard({ content }: ContentCardProps) {
           {/* TODO: Add short description */}
 
           {/* Details */}
-          <div className="flex flex-row">
+          <div className="-mb-5 flex flex-row">
             <div className="flex flex-row items-center">
               <div className="size-3.5 mr-2">
                 <img src={content.metadata?.favicon || `https://www.google.com/s2/favicons?domain=${host}`} alt="Favicon" className="w-full h-full object-cover" />
@@ -59,6 +66,13 @@ export function ContentCard({ content }: ContentCardProps) {
             <span className="px-2.5 text-neutral-700">•</span>
 
             {/* TODO: Add author info */}
+            <div className="flex flex-row items-center">
+              <span className="text-sm text-neutral-900">
+                {author}
+              </span>
+            </div>
+
+            <span className="px-2.5 text-neutral-700">•</span>
 
             {date && (
               <div className="flex flex-row items-center">
@@ -74,33 +88,56 @@ export function ContentCard({ content }: ContentCardProps) {
             <div className="flex flex-row items-center">
               <ClockIcon className="size-3.5 inline-block mr-2 text-neutral-900" strokeWidth={1.5} />
               <span className="text-sm text-neutral-900">
-                {time || 12} min read
+                {content.type === "video" ? `${formatDuration(time)} watch` : `${time || 12} min read`}
               </span>
             </div>
           </div>
         </div>
 
-        {/* TODO: Add actions (like, share, open, etc.) */}
-        <div className="flex flex-row items-center gap-2">
+        <div className="flex flex-row items-center gap-1.5">
+          <Link to={`/content/${content._id.toString()}`}>
+            <Tooltip delayDuration={1000}>
+              <TooltipTrigger>
+                <Button variant="ghost" size="icon-sm">
+                  <BookOpenIcon className="size-4.5" strokeWidth={1.75} />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent side="top" className="px-1.5 py-1">
+                <span className="text-xs">read</span>
+              </TooltipContent>
+            </Tooltip>
+          </Link>
+          <Link to={`/chat/new?contents=${content._id.toString()}`}>
+            <Tooltip delayDuration={1000}>
+              <TooltipTrigger>
+                <Button variant="ghost" size="icon-sm">
+                  <IconMessagePlus className="size-4.5" strokeWidth={1.75} />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent side="top" className="px-1.5 py-1">
+                <span className="text-xs">chat</span>
+              </TooltipContent>
+            </Tooltip>
+          </Link>
           <Tooltip delayDuration={1000}>
             <TooltipTrigger>
-              <Button variant="ghost" size="icon-sm">
-                <ArchiveIcon className="size-4" />
+              <Button variant="ghost" size="icon-sm" onClick={moveToArchive}>
+                <ArchiveIcon className="size-4.5" strokeWidth={1.75} />
               </Button>
             </TooltipTrigger>
             <TooltipContent side="top" className="px-1.5 py-1">
-              <span className="text-xs">Archive</span>
+              <span className="text-xs">archive</span>
             </TooltipContent>
           </Tooltip>
           <Link to={content.url} target="_blank" rel="noopener noreferrer">
             <Tooltip delayDuration={1000}>
               <TooltipTrigger>
                 <Button variant="ghost" size="icon-sm">
-                  <ExternalLinkIcon className="size-4" />
+                  <ExternalLinkIcon className="size-4.5" strokeWidth={1.75} />
                 </Button>
               </TooltipTrigger>
               <TooltipContent side="top" className="px-1.5 py-1">
-                <span className="text-xs">Open</span>
+                <span className="text-xs">open</span>
               </TooltipContent>
             </Tooltip>
           </Link>
