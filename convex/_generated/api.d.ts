@@ -9,6 +9,7 @@
  */
 
 import type * as env from "../env.js";
+import type * as features_auth_helpers from "../features/auth/helpers.js";
 import type * as features_content_queries from "../features/content/queries.js";
 import type * as features_ingestion_actions from "../features/ingestion/actions.js";
 import type * as features_ingestion_article_actions from "../features/ingestion/article/actions.js";
@@ -23,6 +24,7 @@ import type * as features_ingestion_video_actions_node from "../features/ingesti
 import type * as features_ingestion_video_mutations from "../features/ingestion/video/mutations.js";
 import type * as features_ingestion_video_queries from "../features/ingestion/video/queries.js";
 import type * as features_ingestion_video_workflows from "../features/ingestion/video/workflows.js";
+import type * as features_prompts_queries from "../features/prompts/queries.js";
 import type * as index from "../index.js";
 import type * as lib_firecrawl from "../lib/firecrawl.js";
 import type * as lib_llm from "../lib/llm.js";
@@ -36,6 +38,7 @@ import type {
 
 declare const fullApi: ApiFromModules<{
   env: typeof env;
+  "features/auth/helpers": typeof features_auth_helpers;
   "features/content/queries": typeof features_content_queries;
   "features/ingestion/actions": typeof features_ingestion_actions;
   "features/ingestion/article/actions": typeof features_ingestion_article_actions;
@@ -50,6 +53,7 @@ declare const fullApi: ApiFromModules<{
   "features/ingestion/video/mutations": typeof features_ingestion_video_mutations;
   "features/ingestion/video/queries": typeof features_ingestion_video_queries;
   "features/ingestion/video/workflows": typeof features_ingestion_video_workflows;
+  "features/prompts/queries": typeof features_prompts_queries;
   index: typeof index;
   "lib/firecrawl": typeof lib_firecrawl;
   "lib/llm": typeof lib_llm;

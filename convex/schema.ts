@@ -52,4 +52,11 @@ export const VideoContent = v.object({
 
 export default defineSchema({
   contents: defineTable(v.union(ArticleContent, VideoContent)).index('by_url', ['url']),
+
+  prompts: defineTable({
+    _id: v.id('prompts'),
+    userId: v.string(),
+    title: v.string(),
+    text: v.string(),
+  }).index('by_user', ['userId']),
 })

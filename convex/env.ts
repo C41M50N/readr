@@ -1,6 +1,7 @@
 import z from "zod";
 
 const envSchema = z.object({
+  CLERK_JWT_ISSUER_DOMAIN: z.string().min(1, "CLERK_JWT_ISSUER_DOMAIN is required"),
   FIRECRAWL_API_KEY: z.string().min(1, "FIRECRAWL_API_KEY is required"),
   REPLICATE_API_KEY: z.string().min(1, "REPLICATE_API_KEY is required"),
   OCTANE_BASE_URL: z.string().min(1, "OCTANE_BASE_URL is required"),

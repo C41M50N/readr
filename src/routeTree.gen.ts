@@ -10,7 +10,10 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SignInRouteImport } from './routes/sign-in'
+import { Route as ReadRouteImport } from './routes/read'
+import { Route as PromptsRouteImport } from './routes/prompts'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PromptsPromptIdRouteImport } from './routes/prompts.$promptId'
 import { Route as DemoApiNamesRouteImport } from './routes/demo/api.names'
 
 const SignInRoute = SignInRouteImport.update({
@@ -18,10 +21,25 @@ const SignInRoute = SignInRouteImport.update({
   path: '/sign-in',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ReadRoute = ReadRouteImport.update({
+  id: '/read',
+  path: '/read',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PromptsRoute = PromptsRouteImport.update({
+  id: '/prompts',
+  path: '/prompts',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const PromptsPromptIdRoute = PromptsPromptIdRouteImport.update({
+  id: '/$promptId',
+  path: '/$promptId',
+  getParentRoute: () => PromptsRoute,
 } as any)
 const DemoApiNamesRoute = DemoApiNamesRouteImport.update({
   id: '/demo/api/names',
@@ -31,30 +49,60 @@ const DemoApiNamesRoute = DemoApiNamesRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/prompts': typeof PromptsRouteWithChildren
+  '/read': typeof ReadRoute
   '/sign-in': typeof SignInRoute
+  '/prompts/$promptId': typeof PromptsPromptIdRoute
   '/demo/api/names': typeof DemoApiNamesRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/prompts': typeof PromptsRouteWithChildren
+  '/read': typeof ReadRoute
   '/sign-in': typeof SignInRoute
+  '/prompts/$promptId': typeof PromptsPromptIdRoute
   '/demo/api/names': typeof DemoApiNamesRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/prompts': typeof PromptsRouteWithChildren
+  '/read': typeof ReadRoute
   '/sign-in': typeof SignInRoute
+  '/prompts/$promptId': typeof PromptsPromptIdRoute
   '/demo/api/names': typeof DemoApiNamesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/sign-in' | '/demo/api/names'
+  fullPaths:
+    | '/'
+    | '/prompts'
+    | '/read'
+    | '/sign-in'
+    | '/prompts/$promptId'
+    | '/demo/api/names'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/sign-in' | '/demo/api/names'
-  id: '__root__' | '/' | '/sign-in' | '/demo/api/names'
+  to:
+    | '/'
+    | '/prompts'
+    | '/read'
+    | '/sign-in'
+    | '/prompts/$promptId'
+    | '/demo/api/names'
+  id:
+    | '__root__'
+    | '/'
+    | '/prompts'
+    | '/read'
+    | '/sign-in'
+    | '/prompts/$promptId'
+    | '/demo/api/names'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  PromptsRoute: typeof PromptsRouteWithChildren
+  ReadRoute: typeof ReadRoute
   SignInRoute: typeof SignInRoute
   DemoApiNamesRoute: typeof DemoApiNamesRoute
 }
@@ -68,12 +116,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SignInRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/read': {
+      id: '/read'
+      path: '/read'
+      fullPath: '/read'
+      preLoaderRoute: typeof ReadRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/prompts': {
+      id: '/prompts'
+      path: '/prompts'
+      fullPath: '/prompts'
+      preLoaderRoute: typeof PromptsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/prompts/$promptId': {
+      id: '/prompts/$promptId'
+      path: '/$promptId'
+      fullPath: '/prompts/$promptId'
+      preLoaderRoute: typeof PromptsPromptIdRouteImport
+      parentRoute: typeof PromptsRoute
     }
     '/demo/api/names': {
       id: '/demo/api/names'
@@ -85,8 +154,21 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface PromptsRouteChildren {
+  PromptsPromptIdRoute: typeof PromptsPromptIdRoute
+}
+
+const PromptsRouteChildren: PromptsRouteChildren = {
+  PromptsPromptIdRoute: PromptsPromptIdRoute,
+}
+
+const PromptsRouteWithChildren =
+  PromptsRoute._addFileChildren(PromptsRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  PromptsRoute: PromptsRouteWithChildren,
+  ReadRoute: ReadRoute,
   SignInRoute: SignInRoute,
   DemoApiNamesRoute: DemoApiNamesRoute,
 }

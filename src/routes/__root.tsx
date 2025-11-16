@@ -7,6 +7,7 @@ import { fetchClerkAuth } from '@/auth.server'
 import type { RouterContext } from '@/router'
 import { ClerkProvider, useAuth } from '@clerk/tanstack-react-start'
 import { ConvexProviderWithAuth } from 'convex/react'
+import { ConvexProviderWithClerk } from 'convex/react-clerk'
 import { SidebarProvider } from '@/components/ui/sidebar'
 import { MainSidebar } from '@/components/main-sidebar'
 
@@ -49,7 +50,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       </head>
       <body>
         <ClerkProvider publishableKey={CLERK_PUBLISHABLE_KEY} afterSignOutUrl="/">
-          <ConvexProviderWithAuth client={context.convexClient} useAuth={useAuth as any}>
+          <ConvexProviderWithClerk client={context.convexClient} useAuth={useAuth as any}>
             <SidebarProvider>
               <MainSidebar />
               {children}
@@ -69,7 +70,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
                 ]}
               />
             </SidebarProvider>
-          </ConvexProviderWithAuth>
+          </ConvexProviderWithClerk>
         </ClerkProvider>
         <Scripts />
       </body>

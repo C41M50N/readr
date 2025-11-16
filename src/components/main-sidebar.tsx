@@ -12,9 +12,10 @@ import {
 } from "@/components/ui/sidebar";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { useAddContentModal } from "@/stores";
-import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/tanstack-react-start";
+import { SignedIn, SignedOut, SignInButton, useAuth, UserButton } from "@clerk/tanstack-react-start";
+import { IconRobot, IconRobotFace } from "@tabler/icons-react";
 import { Link, useNavigate } from "@tanstack/react-router";
-import { ArchiveIcon, FileStackIcon, InboxIcon, ScrollTextIcon } from "lucide-react";
+import { ArchiveIcon, BotIcon, FileStackIcon, InboxIcon, ScrollTextIcon } from "lucide-react";
 import { useHotkeys } from "react-hotkeys-hook";
 
 export function MainSidebar() {
@@ -34,7 +35,7 @@ export function MainSidebar() {
     { id: 8, title: "Understanding Cryptocurrency and Blockchain" },
     { id: 9, title: "The Benefits of Mindfulness and Meditation" },
     { id: 10, title: "Sustainable Living Tips for Beginners" },
-  ]
+  ];
 
   return (
     <Sidebar>
@@ -73,7 +74,7 @@ export function MainSidebar() {
           </SidebarMenuItem>
           <SidebarMenuItem>
             <SidebarMenuButton asChild className="pl-4 flex flex-row items-center gap-3">
-              <Link to="/prompt-vault">
+              <Link to="/prompts">
                 <ScrollTextIcon className="mr-2 size-[18px]" />
                 <span className="text-sm font-medium">prompt vault</span>
               </Link>
@@ -81,9 +82,17 @@ export function MainSidebar() {
           </SidebarMenuItem>
           <SidebarMenuItem>
             <SidebarMenuButton asChild className="pl-4 flex flex-row items-center gap-3">
-              <Link to="/context-vault">
+              <Link to="/context">
                 <FileStackIcon className="mr-2 size-[18px]" />
                 <span className="text-sm font-medium">context vault</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild className="pl-4 flex flex-row items-center gap-3">
+              <Link to="/automation">
+                <BotIcon className="mr-2 size-[18px]" />
+                <span className="text-sm font-medium">automation</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>

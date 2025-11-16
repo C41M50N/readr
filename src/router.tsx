@@ -15,7 +15,11 @@ export interface RouterContext {
 
 // Create a new router instance
 export const getRouter = () => {
-  const convexClient = new ConvexReactClient(import.meta.env.VITE_CONVEX_URL as string);
+  const CONVEX_URL = import.meta.env.VITE_CONVEX_URL as string;
+  if (!CONVEX_URL) {
+    throw new Error('VITE_CONVEX_URL is not defined');
+  }
+  const convexClient = new ConvexReactClient(CONVEX_URL);
   const convexQueryClient = new ConvexQueryClient(convexClient);
   const queryClient = new QueryClient({
     defaultOptions: {
