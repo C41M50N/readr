@@ -10,6 +10,7 @@ import { ConvexProviderWithAuth } from 'convex/react'
 import { ConvexProviderWithClerk } from 'convex/react-clerk'
 import { SidebarProvider } from '@/components/ui/sidebar'
 import { MainSidebar } from '@/components/main-sidebar'
+import { Toaster } from '@/components/ui/sonner'
 
 const CLERK_PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY as string;
 if (!CLERK_PUBLISHABLE_KEY) {
@@ -69,6 +70,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
                   }
                 ]}
               />
+              <Toaster />
             </SidebarProvider>
           </ConvexProviderWithClerk>
         </ClerkProvider>

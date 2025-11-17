@@ -14,6 +14,7 @@ import { Route as ReadRouteImport } from './routes/read'
 import { Route as PromptsRouteImport } from './routes/prompts'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PromptsPromptIdRouteImport } from './routes/prompts.$promptId'
+import { Route as ApiChatRouteImport } from './routes/api.chat'
 import { Route as DemoApiNamesRouteImport } from './routes/demo/api.names'
 
 const SignInRoute = SignInRouteImport.update({
@@ -41,6 +42,11 @@ const PromptsPromptIdRoute = PromptsPromptIdRouteImport.update({
   path: '/$promptId',
   getParentRoute: () => PromptsRoute,
 } as any)
+const ApiChatRoute = ApiChatRouteImport.update({
+  id: '/api/chat',
+  path: '/api/chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DemoApiNamesRoute = DemoApiNamesRouteImport.update({
   id: '/demo/api/names',
   path: '/demo/api/names',
@@ -52,6 +58,7 @@ export interface FileRoutesByFullPath {
   '/prompts': typeof PromptsRouteWithChildren
   '/read': typeof ReadRoute
   '/sign-in': typeof SignInRoute
+  '/api/chat': typeof ApiChatRoute
   '/prompts/$promptId': typeof PromptsPromptIdRoute
   '/demo/api/names': typeof DemoApiNamesRoute
 }
@@ -60,6 +67,7 @@ export interface FileRoutesByTo {
   '/prompts': typeof PromptsRouteWithChildren
   '/read': typeof ReadRoute
   '/sign-in': typeof SignInRoute
+  '/api/chat': typeof ApiChatRoute
   '/prompts/$promptId': typeof PromptsPromptIdRoute
   '/demo/api/names': typeof DemoApiNamesRoute
 }
@@ -69,6 +77,7 @@ export interface FileRoutesById {
   '/prompts': typeof PromptsRouteWithChildren
   '/read': typeof ReadRoute
   '/sign-in': typeof SignInRoute
+  '/api/chat': typeof ApiChatRoute
   '/prompts/$promptId': typeof PromptsPromptIdRoute
   '/demo/api/names': typeof DemoApiNamesRoute
 }
@@ -79,6 +88,7 @@ export interface FileRouteTypes {
     | '/prompts'
     | '/read'
     | '/sign-in'
+    | '/api/chat'
     | '/prompts/$promptId'
     | '/demo/api/names'
   fileRoutesByTo: FileRoutesByTo
@@ -87,6 +97,7 @@ export interface FileRouteTypes {
     | '/prompts'
     | '/read'
     | '/sign-in'
+    | '/api/chat'
     | '/prompts/$promptId'
     | '/demo/api/names'
   id:
@@ -95,6 +106,7 @@ export interface FileRouteTypes {
     | '/prompts'
     | '/read'
     | '/sign-in'
+    | '/api/chat'
     | '/prompts/$promptId'
     | '/demo/api/names'
   fileRoutesById: FileRoutesById
@@ -104,6 +116,7 @@ export interface RootRouteChildren {
   PromptsRoute: typeof PromptsRouteWithChildren
   ReadRoute: typeof ReadRoute
   SignInRoute: typeof SignInRoute
+  ApiChatRoute: typeof ApiChatRoute
   DemoApiNamesRoute: typeof DemoApiNamesRoute
 }
 
@@ -144,6 +157,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PromptsPromptIdRouteImport
       parentRoute: typeof PromptsRoute
     }
+    '/api/chat': {
+      id: '/api/chat'
+      path: '/api/chat'
+      fullPath: '/api/chat'
+      preLoaderRoute: typeof ApiChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/demo/api/names': {
       id: '/demo/api/names'
       path: '/demo/api/names'
@@ -170,6 +190,7 @@ const rootRouteChildren: RootRouteChildren = {
   PromptsRoute: PromptsRouteWithChildren,
   ReadRoute: ReadRoute,
   SignInRoute: SignInRoute,
+  ApiChatRoute: ApiChatRoute,
   DemoApiNamesRoute: DemoApiNamesRoute,
 }
 export const routeTree = rootRouteImport

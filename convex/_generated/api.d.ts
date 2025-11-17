@@ -24,6 +24,7 @@ import type * as features_ingestion_video_actions_node from "../features/ingesti
 import type * as features_ingestion_video_mutations from "../features/ingestion/video/mutations.js";
 import type * as features_ingestion_video_queries from "../features/ingestion/video/queries.js";
 import type * as features_ingestion_video_workflows from "../features/ingestion/video/workflows.js";
+import type * as features_prompts_mutations from "../features/prompts/mutations.js";
 import type * as features_prompts_queries from "../features/prompts/queries.js";
 import type * as index from "../index.js";
 import type * as lib_firecrawl from "../lib/firecrawl.js";
@@ -53,6 +54,7 @@ declare const fullApi: ApiFromModules<{
   "features/ingestion/video/mutations": typeof features_ingestion_video_mutations;
   "features/ingestion/video/queries": typeof features_ingestion_video_queries;
   "features/ingestion/video/workflows": typeof features_ingestion_video_workflows;
+  "features/prompts/mutations": typeof features_prompts_mutations;
   "features/prompts/queries": typeof features_prompts_queries;
   index: typeof index;
   "lib/firecrawl": typeof lib_firecrawl;

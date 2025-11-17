@@ -28,14 +28,47 @@ import {
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { createFileRoute } from '@tanstack/react-router'
+import { useChat } from "@ai-sdk/react"
 import { ArrowUpIcon, BookIcon, BotIcon, ChevronDownIcon, PlusIcon, UploadIcon } from 'lucide-react'
-
+import React, { useEffect } from 'react'
+import { DefaultChatTransport, UIDataTypes, UIMessagePart, UITools } from 'ai'
+import ReactMarkdown from "react-markdown";
 
 export const Route = createFileRoute('/read')({
   component: RouteComponent,
 })
 
 function RouteComponent() {
+  const [input, setInput] = React.useState("");
+  const { messages, setMessages, sendMessage } = useChat({
+    transport: new DefaultChatTransport({ api: '/api/chat' }),
+  });
+
+  useEffect(() => {
+    setMessages([
+      {
+        role: 'user', parts: [{ type: 'text', text: 'Hello, how are you?' }],
+        id: crypto.randomUUID()
+      },
+      {
+        role: 'assistant', parts: [{ type: 'text', text: 'I am fine, thank you! How can I assist you today?' }],
+        id: crypto.randomUUID()
+      },
+      {
+        role: 'user', parts: [{ type: 'text', text: 'Can you tell me a joke?' }],
+        id: crypto.randomUUID()
+      },
+      {
+        role: 'assistant', parts: [{ type: 'text', text: '### Housing Prices\nSure! Why did the scarecrow win an award? Because he was outstanding in his field!\n- Housing prices have been steadily increasing over the past few years.\n- Many people are struggling to afford homes in desirable areas.\n- There is a growing demand for affordable housing options.' }],
+        id: crypto.randomUUID()
+      },
+    ])
+  }, []);
+
+  function joinTextParts(parts: UIMessagePart<UIDataTypes, UITools>[]) {
+    return parts.map(part => part.type === 'text' ? part.text : '').join('\n').replaceAll('\n\n', '\n');
+  }
+
   return (
     <div className="min-h-screen w-full bg-white flex flex-row">
 
@@ -86,7 +119,7 @@ function RouteComponent() {
                 <CommandList>
                   <CommandEmpty>No results found.</CommandEmpty>
                   <CommandGroup>
-                    <CommandItem>new chat</CommandItem>
+                    <CommandItem value="new">new chat</CommandItem>
                     <CommandItem>Chat 1</CommandItem>
                     <CommandItem>Chat 2</CommandItem>
                     <CommandItem>Chat 3</CommandItem>
@@ -113,69 +146,70 @@ function RouteComponent() {
         <ScrollArea className="px-6 mb-4 h-[calc(100vh-200px)]">
           {/* Example chat messages */}
           <div className="flex flex-col gap-4">
-            <div className="flex flex-row gap-3">
-              <div className="size-8 rounded-full bg-gray-300 flex items-center justify-center">
-                <BotIcon className="size-5 text-white" />
-              </div>
-              <div className="bg-gray-100 p-3 rounded-lg max-w-[70%]">
-                <p className="text-sm">
-                  Hello! How can I assist you today?
-                </p>
-              </div>
-            </div>
-            <div className="self-end bg-blue-600 text-white p-3 rounded-lg max-w-[70%]">
-              <p className="text-sm">
-                Hi! I have a question about my recent order.
-              </p>
-            </div>
-            <div className="flex flex-row gap-3">
-              <div className="size-8 rounded-full bg-gray-300 flex items-center justify-center">
-                <BotIcon className="size-5 text-white" />
-              </div>
-              <div className="bg-gray-100 p-3 rounded-lg max-w-[70%]">
-                <p className="text-sm">
-                  Sure! Could you please provide me with your order number?
-                </p>
-              </div>
-            </div>
+            {messages.map((message, index) =>
+              message.role === 'user' ? (
+                <div key={index} className="self-end bg-gray-100 p-2 px-3 rounded-lg max-w-[70%]">
+                  <p className="text-sm">{joinTextParts(message.parts)}</p>
+                </div>
+              ) : (
+                <div className="py-3 rounded-lg prose-sm">
+                  <ReactMarkdown>
+                    {joinTextParts(message.parts)}
+                  </ReactMarkdown>
+                </div>
+              )
+            )}
           </div>
         </ScrollArea>
 
         {/* Chat input */}
-        <InputGroup className="mx-auto max-w-xl mb-6">
-          <InputGroupTextarea placeholder="Ask, Search or Chat..." />
-          <InputGroupAddon align="block-end">
-            {/* <InputGroupButton
-              variant="outline"
-              className="rounded-full"
-              size="icon-xs"
-            >
-              <PaperclipIcon />
-            </InputGroupButton> */}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <InputGroupButton variant="ghost"><BotIcon className='mr-0.5' /> Gemini 2.0 Flash</InputGroupButton>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent
-                side="right"
-                align="end"
-                className="[--radius:0.95rem]"
+        <div className="px-6 mb-4">
+          <InputGroup className="mx-auto max-w-xl">
+            <InputGroupTextarea
+              placeholder="Ask, Search or Chat..."
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && !e.shiftKey) {
+                  e.preventDefault();
+                  sendMessage({ text: input });
+                  setInput("");
+                }
+              }}
+            />
+            <InputGroupAddon align="block-end">
+              {/* <InputGroupButton
+                variant="outline"
+                className="rounded-full"
+                size="icon-xs"
               >
-                <DropdownMenuItem>Gemini 2.0 Flash</DropdownMenuItem>
-                <DropdownMenuItem disabled>Claude Haiku 4.5</DropdownMenuItem>
-                <DropdownMenuItem disabled>GPT 5 Nano</DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-            <InputGroupButton
-              variant="default"
-              className="ml-auto rounded-full"
-              size="icon-xs"
-            >
-              <ArrowUpIcon />
-              <span className="sr-only">Send</span>
-            </InputGroupButton>
-          </InputGroupAddon>
-        </InputGroup>
+                <PaperclipIcon />
+              </InputGroupButton> */}
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <InputGroupButton variant="ghost"><BotIcon className='mr-0.5' /> Gemini 2.0 Flash</InputGroupButton>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent
+                  side="right"
+                  align="end"
+                  className="[--radius:0.95rem]"
+                >
+                  <DropdownMenuItem>Gemini 2.0 Flash</DropdownMenuItem>
+                  <DropdownMenuItem disabled>Claude Haiku 4.5</DropdownMenuItem>
+                  <DropdownMenuItem disabled>GPT 5 Nano</DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+              <InputGroupButton
+                variant="default"
+                className="ml-auto rounded-full"
+                size="icon-xs"
+              >
+                <ArrowUpIcon />
+                <span className="sr-only">Send</span>
+              </InputGroupButton>
+            </InputGroupAddon>
+          </InputGroup>
+        </div>
       </div>
     </div>
   )

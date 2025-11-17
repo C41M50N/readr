@@ -98,7 +98,7 @@ export function ContentCard({ content }: ContentCardProps) {
           <Link to={`/content/${content._id.toString()}`}>
             <Tooltip delayDuration={1000}>
               <TooltipTrigger>
-                <Button variant="ghost" size="icon-sm">
+                <Button asChild variant="ghost" className="p-1 size-7">
                   <BookOpenIcon className="size-4.5" strokeWidth={1.75} />
                 </Button>
               </TooltipTrigger>
@@ -110,7 +110,7 @@ export function ContentCard({ content }: ContentCardProps) {
           <Link to={`/chat/new?contents=${content._id.toString()}`}>
             <Tooltip delayDuration={1000}>
               <TooltipTrigger>
-                <Button variant="ghost" size="icon-sm">
+                <Button asChild variant="ghost" className="p-1 size-7">
                   <IconMessagePlus className="size-4.5" strokeWidth={1.75} />
                 </Button>
               </TooltipTrigger>
@@ -121,7 +121,7 @@ export function ContentCard({ content }: ContentCardProps) {
           </Link>
           <Tooltip delayDuration={1000}>
             <TooltipTrigger>
-              <Button variant="ghost" size="icon-sm" onClick={moveToArchive}>
+              <Button asChild variant="ghost" className="p-1 size-7" onClick={moveToArchive}>
                 <ArchiveIcon className="size-4.5" strokeWidth={1.75} />
               </Button>
             </TooltipTrigger>
@@ -132,8 +132,8 @@ export function ContentCard({ content }: ContentCardProps) {
           <Link to={content.url} target="_blank" rel="noopener noreferrer">
             <Tooltip delayDuration={1000}>
               <TooltipTrigger>
-                <Button variant="ghost" size="icon-sm">
-                  <ExternalLinkIcon className="size-4.5" strokeWidth={1.75} />
+                <Button asChild variant="ghost" className="p-1 size-7">
+                  <ExternalLinkIcon strokeWidth={1.75} />
                 </Button>
               </TooltipTrigger>
               <TooltipContent side="top" className="px-1.5 py-1">

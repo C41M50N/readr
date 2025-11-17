@@ -27,3 +27,7 @@ export function createModalStateStore({
 export const useAddContentModal = createModalStateStore({
   defaultState: 'closed',
 });
+
+export const useAddPromptModal = createModalStateStore({
+  defaultState: 'closed',
+});

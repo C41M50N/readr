@@ -1,4 +1,5 @@
 import { requireAuth } from '@/auth.server'
+import { AddPromptModal } from '@/components/add-prompt-modal'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Kbd } from '@/components/ui/kbd'
@@ -26,7 +27,7 @@ function RouteComponent() {
 
   return (
     <div className="min-h-screen w-full bg-white">
-      <div className="mx-auto max-w-5xl py-6">
+      <div className="mx-auto max-w-5xl py-2">
         <div className="pl-6 pr-6 pt-4 pb-4">
           <h1 className="text-2xl font-bold mb-0.5">prompt vault</h1>
           <p className="text-gray-600">browse and manage your collection of prompts</p>
@@ -37,21 +38,19 @@ function RouteComponent() {
             placeholder="search prompts..."
             className="w-full"
           />
-          <Button>
-            + new prompt
-          </Button>
+          <AddPromptModal />
         </div>
       </div>
 
-      <div className="mx-auto max-w-5xl">
+      <div className="mt-3 mx-auto max-w-5xl">
         {prompts.length === 0 ? (
           <div className="pt-16 px-6 flex flex-col items-center justify-center gap-2">
-            <span className="text-gray-500">you don't have any prompts yet. {" "} <Button variant="secondary" size="sm" className="h-6">+ new prompt</Button></span>
+            <span className="text-gray-500">you don't have any prompts yet.</span>
           </div>
         ) : (
           <div className="px-6 flex flex-col items-center justify-center gap-3">
             {prompts.map((prompt) => (
-              <div key={prompt._id} className="group relative p-4 pl-6 border border-gray-200">
+              <div key={prompt._id} className="group relative w-full p-4 pl-6 border border-gray-200">
                 <h2 className="mb-1 text-lg font-semibold">{prompt.title}</h2>
                 <p className="max-w-[90%] text-gray-600 text-ellipsis line-clamp-2">{prompt.text}</p>
                 <div className="absolute top-1.5 right-1 opacity-0 group-hover:opacity-100 transition-opacity flex gap-1">

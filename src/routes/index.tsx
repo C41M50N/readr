@@ -19,7 +19,7 @@ function App() {
         <h1 className="text-2xl font-bold mb-0.5">Inbox</h1>
         <p className="text-gray-600">Welcome to your inbox! Here you can find all your recent content.</p>
       </div>
-      <div className="px-6 flex flex-col items-center justify-center gap-2">
+      <div className="px-6 pb-6 flex flex-col items-center justify-center gap-2">
         {contents.length > 0 ? (
           contents.map((content) => (
             <ContentCard key={content._id.toString()} content={content} />
