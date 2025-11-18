@@ -40,9 +40,9 @@ export function ContentCard({ content }: ContentCardProps) {
           )}
         </div>
         <div className="flex-1 min-h-20 flex flex-col justify-between">
-          <div className="max-w-2xl">
+          <div className="mb-0.5 max-w-3xl">
             {title ? (
-              <h3 className="text-xl font-semibold mb-0.5">{title}</h3>
+              <h3 className="text-xl font-semibold line-clamp-1 text-ellipsis">{title}</h3>
             ) : (
               <div className="h-6 w-full max-w-[700px] bg-linear-to-r from-gray-200 via-gray-100 to-gray-200 bg-size-[200%_100%] animate-[shimmer_0.5s_infinite] rounded mb-2" />
             )}

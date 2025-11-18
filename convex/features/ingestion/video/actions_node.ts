@@ -31,7 +31,7 @@ export const getVideoMetadata = internalAction({
     const { data } = await firecrawl.extract({
       urls: [args.url],
       prompt:
-        "Extract the channel name, channel URL, and video duration (in seconds) from the video page.",
+        "You are an expert at extracting video metadata from YouTube. Extract the channel name, channel URL, and video duration (in seconds) from the page.",
       schema: jsonSchema,
     });
     const { channel_name, channel_url, duration } = ExtractSchema.parse(data);
