@@ -327,9 +327,9 @@ function RouteComponent() {
         </div>
 
         {/* Chat UI goes here */}
-        <ScrollArea className="px-6 h-[calc(100vh-200px)]">
+        <ScrollArea className="px-6 h-[calc(100vh-148px)]">
           {/* Example chat messages */} {/* TODO: add simple lines pattern to gutters */}
-          <div className="pt-6 mx-auto w-full max-w-3xl flex flex-col gap-4">
+          <div className="pt-6 pb-12 mx-auto w-full max-w-3xl flex flex-col gap-4">
             {messages.map((message, index) =>
               message.role === 'user' ? (
                 <div key={index} className="self-end bg-gray-100 p-2 px-3 rounded-lg max-w-[70%]">
@@ -384,10 +384,10 @@ function RouteComponent() {
               </DropdownMenu>
               <InputGroupButton
                 variant="default"
-                className="ml-auto rounded-full"
-                size="icon-xs"
+                className="ml-auto rounded-sm"
+                size="icon-sm"
               >
-                <ArrowUpIcon />
+                <ArrowUpIcon className="size-4.5" />
                 <span className="sr-only">Send</span>
               </InputGroupButton>
             </InputGroupAddon>
