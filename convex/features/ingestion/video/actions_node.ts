@@ -72,7 +72,7 @@ export const improveTranscript = internalAction({
   returns: v.string(),
   handler: async (_, args) => {
     const improvedTranscript = await llm.generate_text({
-      model: "gemini-2.5-flash-lite-preview-06-17",
+      model: "gemini-2.5-flash-lite-preview-09-2025",
       system_prompt: "You are a helpful assistant that improves video transcripts by fixing grammar, punctuation, and formatting. Return the improved transcript in markdown format. Add useful headings to break up the content -- use sparingly.",
       user_prompt: `Improve the readability of the following video transcript:\n\n${args.transcript}`,
       log_key: "improve-video-transcript",

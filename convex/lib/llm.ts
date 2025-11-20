@@ -16,7 +16,7 @@ type ModelDetails = {
 
 const MODEL_REGISTRY = {
   // Google Gemini models
-  "gemini-2.5-flash-lite-preview-06-17": {
+  "gemini-2.5-flash-lite-preview-09-2025": {
     name: "Gemini 2.5 Flash Lite Preview",
     provider: "Google",
     cost_per_1M_input_tokens: 5, // 0.05 USD

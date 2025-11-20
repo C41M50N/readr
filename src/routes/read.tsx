@@ -250,6 +250,23 @@ function RouteComponent() {
     return parts.map(part => part.type === 'text' ? part.text : '').join('\n').replaceAll('\n\n', '\n');
   }
 
+  function parseYouTubeVideoId(url: string): string | null {
+    const patterns = [
+      /(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/,
+      /youtube\.com\/embed\/([a-zA-Z0-9_-]{11})/,
+      /youtube\.com\/v\/([a-zA-Z0-9_-]{11})/,
+    ];
+    
+    for (const pattern of patterns) {
+      const match = url.match(pattern);
+      if (match) {
+        return match[1];
+      }
+    }
+    
+    return null;
+  }
+
   return (
     <div className="min-h-screen w-full bg-white flex flex-row">
 
@@ -278,6 +295,20 @@ function RouteComponent() {
 
         {/* Markdown viewer goes here */}
         <ScrollArea className="px-6 h-[calc(100vh-36px)]">
+          {getSelectedContent()?.type === "video" && (
+            // youtube video embed
+            <div className="pt-10 pb-10 max-w-3xl mx-auto">
+              <div className="aspect-video w-full bg-black rounded-sm overflow-hidden">
+                <iframe
+                  src={`https://www.youtube.com/embed/${parseYouTubeVideoId(getSelectedContent()?.url || "")}`}
+                  title={getSelectedContent()?.metadata?.title || "Video"}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  className="w-full h-full"
+                ></iframe>
+              </div>
+            </div>
+          )}
           {/* toolbar (copy markdown button, download button, ) */}
           <MarkdownViewer
             className="pt-6 pb-12 max-w-3xl mx-auto"
@@ -384,7 +415,7 @@ function RouteComponent() {
               </DropdownMenu>
               <InputGroupButton
                 variant="default"
-                className="ml-auto rounded-sm"
+                className="ml-auto rounded-sm bg-neutral-900 opacity-80 hover:opacity-75"
                 size="icon-sm"
               >
                 <ArrowUpIcon className="size-4.5" />
