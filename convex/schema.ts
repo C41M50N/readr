@@ -50,6 +50,16 @@ export const VideoContent = v.object({
   metadata: v.optional(VideoMetadata),
 })
 
+export const MetaContentSchema = v.object({
+  title: v.string(),
+  description: v.optional(v.union(v.string(), v.null())),
+  author: v.optional(v.union(v.string(), v.null())),
+  publish_date: v.optional(v.union(v.string(), v.null())),
+  duration: v.optional(v.union(v.number(), v.null())),
+  thumbnail: v.optional(v.union(v.string(), v.null())),
+  favicon: v.optional(v.union(v.string(), v.null())),
+})
+
 export default defineSchema({
   contents: defineTable(v.union(ArticleContent, VideoContent)).index('by_url', ['url']),
 

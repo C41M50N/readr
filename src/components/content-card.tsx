@@ -95,7 +95,7 @@ export function ContentCard({ content }: ContentCardProps) {
         </div>
 
         <div className="flex flex-row items-center gap-1.5">
-          <Link to={`/content/${content._id.toString()}`}>
+          <Link to={`/read`} search={{ contents: [content._id.toString()] }}>
             <Tooltip delayDuration={1000}>
               <TooltipTrigger>
                 <Button asChild variant="ghost" className="p-1 size-7">
